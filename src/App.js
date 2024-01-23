@@ -1,6 +1,6 @@
 import './App.css';
 import PaymentsList from "./components/PaymentsList";
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useState} from "react";
 import PaymentsFilter from "./components/PaymentsFilter";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
