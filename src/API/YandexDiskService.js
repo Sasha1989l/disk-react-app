@@ -1,6 +1,4 @@
 import axios from "axios";
-import PaymentItem from "../components/PaymentItem";
-import React from "react";
 
 export default class YandexDiskService {
 
