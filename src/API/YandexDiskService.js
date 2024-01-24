@@ -20,16 +20,18 @@ export default class YandexDiskService {
         let data = response?.data?._embedded
         let total = data.total
         let items= data?.items
-        {items.map((item) => {
-                let fileData = this.splitString(item.name)
-                payments.push({
-                    id: item?.resource_id,
-                    title: fileData['title'],
-                    date: fileData['date'],
-                    address: fileData['address'],
-                    url: item?.file})
+
+        items.map((item) => {
+            let fileData = this.splitString(item.name)
+            payments.push({
+                id: item?.resource_id,
+                title: fileData['title'],
+                date: fileData['date'],
+                address: fileData['address'],
+                url: item?.file})
             }
-        )}
+        )
+
         return {total: total, payments: payments}
     }
 
