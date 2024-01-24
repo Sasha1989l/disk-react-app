@@ -13,7 +13,7 @@ const PaymentItem = ({payment}) => {
             </Card.Body>
             <Card.Footer className="d-flex flex-row justify-content-between">
                 <div>{payment.date}</div>
-                <Button variant="primary" href={payment.url}>Открыть файл</Button>
+                <Button variant="primary" target="_blank" href={payment.url}>Открыть файл</Button>
             </Card.Footer>
         </Card>
     );

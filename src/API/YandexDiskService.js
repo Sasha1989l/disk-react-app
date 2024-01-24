@@ -2,6 +2,8 @@ import axios from "axios";
 
 export default class YandexDiskService {
 
+    static public_key = 'ZxDvyPQq38rY8w'
+
     static splitString(fileName) {
         fileName = fileName.replace(/\.[^.]+$/, "")
         let parts = fileName.split("@")
@@ -9,6 +11,26 @@ export default class YandexDiskService {
             throw new Error('Название одного из файлов не может быть обработано');
         }
         return {date: parts[0], address: parts[1], title: parts[2]}
+    }
+
+
+    static getUrl(data, item){
+        console.log(data)
+        let url = ''
+
+        if (item?.media_type === "image"){
+            let fileName = encodeURIComponent(item.name).replaceAll('%25', '%')
+            url = `https://disk.yandex.ru/d/${this.public_key}/${fileName}`
+        }
+
+        if (item?.media_type === 'document'){
+            console.log(`://${item.public_key}:${item.path}`)
+            let doc_url = encodeURIComponent(`://${item.public_key}:${item.path}`).replaceAll('%25', '%')
+            let doc_name = encodeURIComponent(item.name).replaceAll('%25', '%').replaceAll('%25', '%')
+            url = `https://docs.yandex.ru/docs/view?url=ya-disk-public${doc_url}&name=${doc_name}`
+        }
+
+        return url
     }
 
     static parseResponse(response){
@@ -28,7 +50,7 @@ export default class YandexDiskService {
                 title: fileData['title'],
                 date: fileData['date'],
                 address: fileData['address'],
-                url: item?.file})
+                url: this.getUrl(data, item)})
             }
         )
 
@@ -45,7 +67,7 @@ export default class YandexDiskService {
             const response = await axios.get('https://cloud-api.yandex.net/v1/disk/public/resources',
             {
                     params: {
-                        public_key: 'https://disk.yandex.ru/d/ZxDvyPQq38rY8w',
+                        public_key: `https://disk.yandex.ru/d/${this.public_key}`,
                         limit: limit,
                         offset: limit*(page-1),
                     },
