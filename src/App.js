@@ -1,42 +1,46 @@
 import './App.css';
-import PaymentsList from "./components/PaymentsList";
 import React, {useEffect, useState} from "react";
-import PaymentsFilter from "./components/PaymentsFilter";
+import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
+import Payments from "./pages/Payments";
+import Settings from "./pages/Settings";
+import ImageTitle from "./pages/ImageTitle";
+import {Container, Nav, Navbar} from "react-bootstrap";
+import {SettingsContext} from "./context";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import "react-datepicker/dist/react-datepicker.css";
-import {usePayments} from "./hooks/usePayments";
-import {Spinner} from "react-bootstrap";
-import YandexDiskService from "./API/YandexDiskService";
-import {useFetching} from "./hooks/useFetching";
+
 
 function App() {
-    const dateNow = new Date()
-    dateNow.setHours(0,0,0,0);
-    const [payments, setPayments] = useState([])
-    const [filter, setFilter] = useState({ queryTitle: '', queryAddress: '', startDate: dateNow, endDate: dateNow})
-    const sortedAndSearchPayments = usePayments(payments, filter.queryTitle, filter.queryAddress, filter.startDate, filter.endDate);
-
-    const [fetchPayments, isPaymentsLoading, paymentsError] = useFetching(async () => {
-        const response = await YandexDiskService.getAll();
-        setPayments([...payments, ...response])
-    })
+    const [outdatedMonth, setOutdatedMonth] = useState(3)
 
     useEffect(() => {
-        fetchPayments()
+        if (localStorage.getItem('outdatedMonth')) {
+            let months = Number(localStorage.getItem('outdatedMonth'))
+            setOutdatedMonth(months)
+        }
     }, [])
 
     return (
-        <div className="App mx-auto p-2" style={{'maxWidth': '700px'}}>
-            <PaymentsFilter filter={filter} setFilter={setFilter}/>
-            {isPaymentsLoading
-                ? <Spinner animation="border"/>
-                : <PaymentsList payments={sortedAndSearchPayments}/>
-            }
-            {paymentsError &&
-                <h1>Произошла ошибка ${paymentsError}</h1>
-            }
-        </div>
+        <SettingsContext.Provider value={{
+            outdatedMonth, setOutdatedMonth
+        }}>
+            <BrowserRouter>
+                <Navbar bg="dark" data-bs-theme="dark">
+                    <Container>
+                      <Nav className="me-auto">
+                        <Nav.Link as={Link} to="/" activeClassName="active">Список</Nav.Link>
+                        <Nav.Link as={Link} to="/settings" activeClassName="active">Настройки</Nav.Link>
+                        <Nav.Link as={Link} to="/get_image_title" activeClassName="active">Название</Nav.Link>
+                      </Nav>
+                    </Container>
+                </Navbar>
+                <Routes>
+                    <Route path="/" element={<Payments />} />
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/get_image_title" element={<ImageTitle />} />
+                    <Route path="*" element={<Payments />} />
+                </Routes>
+            </BrowserRouter>
+        </SettingsContext.Provider>
     );
 }
 

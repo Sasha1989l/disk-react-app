@@ -1,19 +1,8 @@
 import {useMemo} from "react";
 
-const parseDate = (dateString) => {
-        let parts = dateString.split(".")
-        // Здесь предполагается, что формат даты DD.MM.YYYY
-        let day = parts[0].replace(/\s/g, '')
-        let month = parts[1].replace(/\s/g, '')
-        let year = parts[2].replace(/\s/g, '')
-        year = year.length === 2 ? `20${year}` : year
-
-        return new Date(year, month - 1, day)
-    }
-
 export const useSortedPayments = (payments) => {
     return useMemo(() => {
-        return [...payments].sort((a, b) => parseDate(b['date']) - parseDate(a['date']))
+        return [...payments].sort((a, b) => b['date'] - a['date'])
     }, [payments]);
 }
 
@@ -28,7 +17,7 @@ export const usePayments = (payments, queryTitle, queryAddress, startDate, endDa
         searched = searched.filter(
             payment => {
                 if (startDate !== endDate) {
-                    let recordDate = parseDate(payment.date)
+                    let recordDate = payment.date
                     return startDate <= recordDate && recordDate <= endDate
                 }
                 return true

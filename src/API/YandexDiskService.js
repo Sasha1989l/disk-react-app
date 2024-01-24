@@ -1,8 +1,10 @@
 import axios from "axios";
+import DateHelper from "../helpers/DateHelper";
 
 export default class YandexDiskService {
 
     static public_key = 'ZxDvyPQq38rY8w'
+    static public_url = `https://disk.yandex.ru/d/${this.public_key}`
 
     static splitString(fileName) {
         fileName = fileName.replace(/\.[^.]+$/, "")
@@ -10,12 +12,15 @@ export default class YandexDiskService {
         if (parts.length < 3){
             throw new Error('Название одного из файлов не может быть обработано');
         }
-        return {date: parts[0], address: parts[1], title: parts[2]}
+        let updated_parts = parts.map(part => {
+            return part.replace(/^\s\s*/, '').replace(/\s\s*$/, '')
+        })
+
+        return {date: updated_parts[0], address: updated_parts[1], title: updated_parts[2]}
     }
 
 
     static getUrl(data, item){
-        console.log(data)
         let url = ''
 
         if (item?.media_type === "image"){
@@ -24,7 +29,6 @@ export default class YandexDiskService {
         }
 
         if (item?.media_type === 'document'){
-            console.log(`://${item.public_key}:${item.path}`)
             let doc_url = encodeURIComponent(`://${item.public_key}:${item.path}`).replaceAll('%25', '%')
             let doc_name = encodeURIComponent(item.name).replaceAll('%25', '%').replaceAll('%25', '%')
             url = `https://docs.yandex.ru/docs/view?url=ya-disk-public${doc_url}&name=${doc_name}`
@@ -48,7 +52,7 @@ export default class YandexDiskService {
             payments.push({
                 id: item?.resource_id,
                 title: fileData['title'],
-                date: fileData['date'],
+                date: DateHelper.parseDate(fileData['date']),
                 address: fileData['address'],
                 url: this.getUrl(data, item)})
             }
@@ -67,7 +71,7 @@ export default class YandexDiskService {
             const response = await axios.get('https://cloud-api.yandex.net/v1/disk/public/resources',
             {
                     params: {
-                        public_key: `https://disk.yandex.ru/d/${this.public_key}`,
+                        public_key: this.public_url,
                         limit: limit,
                         offset: limit*(page-1),
                     },
