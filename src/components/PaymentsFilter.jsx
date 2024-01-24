@@ -1,9 +1,15 @@
-import React from 'react';
-import {Form, InputGroup} from "react-bootstrap";
+import React, {forwardRef} from 'react';
+import {Button, Form, InputGroup} from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import ru from 'date-fns/locale/ru';
 
 const PaymentsFilter = ({filter, setFilter}) => {
+    const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
+        <Button className="primary" onClick={onClick} ref={ref}>
+          {value}
+        </Button>
+    ))
+
     return (
         <div>
             <InputGroup>
@@ -34,6 +40,7 @@ const PaymentsFilter = ({filter, setFilter}) => {
                     showYearDropdown
                     yearDropdownItemNumber={5}
                     scrollableYearDropdown
+                    customInput={<ExampleCustomInput />}
                 />
                 <DatePicker
                     className="my-1"
@@ -47,6 +54,7 @@ const PaymentsFilter = ({filter, setFilter}) => {
                     showYearDropdown
                     yearDropdownItemNumber={5}
                     scrollableYearDropdown
+                    customInput={<ExampleCustomInput />}
                 />
             </div>
         </div>
