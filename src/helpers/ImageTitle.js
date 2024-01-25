@@ -4,7 +4,8 @@ export default class ImageTitle {
     static deliveryMethods = {
         'Д': 'доставка+ установка',
         'ТД': 'только доставка',
-        'С': 'самовывоз'
+        'С': 'самовывоз',
+        'Р': 'ремонт'
     }
     static maxFileNameLength = 250
 

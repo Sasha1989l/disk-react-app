@@ -20,13 +20,14 @@ const Title = () => {
         setFileName(generateTitle())
     }, [params]);
 
-    const isUrl = (text) => {
-      try {
-        new URL(text);
-      } catch (_) {
+    const getUrl = (text) => {
+        let url = ''
+        try {
+            url = new URL(text)
+        } catch (_) {
           return false
-      }
-      return true
+        }
+        return url
     }
 
     const generateTitle = () => {
@@ -36,9 +37,11 @@ const Title = () => {
         date = `${day}.${month}.${year}`
 
         let avitoId = params.avitoId
-        if (isUrl(avitoId)) {
-            let url_parts = avitoId.split('_')
-            avitoId = url_parts[url_parts.length-1]
+        let url = getUrl(avitoId)
+        if (url) {
+            let pathname = url.pathname
+            let pathname_parts = pathname.split('_')
+            avitoId = pathname_parts[pathname_parts.length-1]
         }
 
         return ImageTitle.generate(date, params.delivery, params.price, params.address, params.title, avitoId)

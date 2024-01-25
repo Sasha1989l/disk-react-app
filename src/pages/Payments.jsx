@@ -10,8 +10,8 @@ function Payments() {
     const dateNow = new Date()
     dateNow.setHours(0,0,0,0);
     const [payments, setPayments] = useState([])
-    const [filter, setFilter] = useState({ queryTitle: '', queryAddress: '', startDate: dateNow, endDate: dateNow})
-    const sortedAndSearchPayments = usePayments(payments, filter.queryTitle, filter.queryAddress, filter.startDate, filter.endDate);
+    const [filter, setFilter] = useState({ queryTitle: '', queryAddress: '', startDate: dateNow, endDate: dateNow, minPrice: '', maxPrice: ''})
+    const sortedAndSearchPayments = usePayments(payments, filter.queryTitle, filter.queryAddress, filter.startDate, filter.endDate, filter.minPrice, filter.maxPrice);
 
     const [fetchPayments, isPaymentsLoading, paymentsError] = useFetching(async () => {
         const response = await YandexDiskService.getAll();

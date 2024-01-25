@@ -26,6 +26,24 @@ const PaymentsFilter = ({filter, setFilter}) => {
                   onChange={e => setFilter({...filter, queryAddress: e.target.value})}
                 />
             </InputGroup>
+            <div className='d-flex flex-row my-1'>
+                <InputGroup className="me-2">
+                    <Form.Control
+                      placeholder='Цена от'
+                      type="number"
+                      value={filter.minPrice}
+                      onChange={e => setFilter({...filter, minPrice: e.target.value})}
+                    />
+                </InputGroup>
+                <InputGroup>
+                    <Form.Control
+                      placeholder='Цена да'
+                      type="number"
+                      value={filter.maxPrice}
+                      onChange={e => setFilter({...filter, maxPrice: e.target.value})}
+                    />
+                </InputGroup>
+            </div>
             <div className="d-flex flex-row justify-content-around flex-wrap date-select-group">
                 <DatePicker
                     className='my-1'
