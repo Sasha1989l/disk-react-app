@@ -10,7 +10,8 @@ const Title = () => {
         delivery: 'Д',
         price: '',
         title: '',
-        address: ''
+        address: '',
+        avitoId: '',
     })
     const [fileName, setFileName] = useState('')
     const [showToast, setShowToast] = useState(false);
@@ -19,13 +20,28 @@ const Title = () => {
         setFileName(generateTitle())
     }, [params]);
 
+    const isUrl = (text) => {
+      try {
+        new URL(text);
+      } catch (_) {
+          return false
+      }
+      return true
+    }
+
     const generateTitle = () => {
         let date = params.date.toLocaleString().split(',')[0]
         let [day, month, year] = date.split('.')
         year = year.substring(year.length-2);
         date = `${day}.${month}.${year}`
 
-        return ImageTitle.generate(date, params.delivery, params.price, params.title, params.address)
+        let avitoId = params.avitoId
+        if (isUrl(avitoId)) {
+            let url_parts = avitoId.split('_')
+            avitoId = url_parts[url_parts.length-1]
+        }
+
+        return ImageTitle.generate(date, params.delivery, params.price, params.address, params.title, avitoId)
     }
 
     const copyToClipboard = (text) => {

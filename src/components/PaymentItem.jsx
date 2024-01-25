@@ -17,9 +17,14 @@ const PaymentItem = ({payment}) => {
                     <div>Цена: {payment.price}</div>
                 </Card.Text>
             </Card.Body>
-            <Card.Footer className="d-flex flex-row justify-content-between">
+            <Card.Footer className="d-flex flex-row justify-content-between align-items-center">
                 <div>{payment.date.toLocaleString().split(',')[0]}</div>
-                <Button variant="primary" target="_blank" href={payment.url}>Открыть файл</Button>
+                <div>
+                    {payment.avitoUrl &&
+                        <Button variant="primary" target="_blank" href={payment.avitoUrl} className='me-2'>Авито</Button>
+                    }
+                    <Button variant="primary" target="_blank" href={payment.url}>Файл</Button>
+                </div>
             </Card.Footer>
         </Card>
     );

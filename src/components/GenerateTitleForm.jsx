@@ -1,5 +1,5 @@
 import React, {forwardRef, useEffect, useState} from 'react';
-import {Button, Form, InputGroup} from "react-bootstrap";
+import {Button, FloatingLabel, Form, InputGroup} from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import ru from 'date-fns/locale/ru';
 import ImageTitle from "../helpers/ImageTitle";
@@ -18,8 +18,6 @@ const GenerateTitleForm = ({params, setParams}) => {
             deliveryMethods.push({code: method_code, title: dm[method_code]})
         }
     }, []);
-
-
 
     return (
         <div>
@@ -57,18 +55,30 @@ const GenerateTitleForm = ({params, setParams}) => {
             </InputGroup>
             <InputGroup className="my-2">
                 <Form.Control
-                  placeholder='Название'
-                  value={params.title}
-                  onChange={e => setParams({...params, title: e.target.value})}
-                />
-            </InputGroup>
-            <InputGroup className="my-2">
-                <Form.Control
                   placeholder='Адрес'
                   value={params.address}
                   onChange={e => setParams({...params, address: e.target.value})}
                 />
             </InputGroup>
+            <InputGroup className="my-2">
+                <Form.Control
+                  placeholder='Название'
+                  value={params.title}
+                  onChange={e => setParams({...params, title: e.target.value})}
+                />
+            </InputGroup>
+            <FloatingLabel
+            controlId="floatingTextarea"
+            label="Ссылка на авито или id"
+            className="mb-3"
+            >
+                <Form.Control as="textarea"
+                              placeholder="https://www.avito.ru/severodvinsk/avtomobili/hyundai_accent_1.5_mt_2005_202202km_3694137050"
+                              value={params.avitoId}
+                              style={{ height: '120px' }}
+                              onChange={e => setParams({...params, avitoId: e.target.value})}
+                />
+            </FloatingLabel>
         </div>
     );
 };

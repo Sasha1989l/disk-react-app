@@ -44,7 +44,8 @@ export default class YandexDiskService {
                 address: fileData['address'],
                 url: this.getUrl(data, item),
                 delivery: fileData['delivery'],
-                price: fileData['price']
+                price: fileData['price'],
+                avitoUrl: fileData['avitoId'] ? `https://www.avito.ru/${fileData['avitoId']}` : '',
             })
         })
 
