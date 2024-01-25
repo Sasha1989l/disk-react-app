@@ -1,4 +1,3 @@
-
 export default class DateHelper {
         static parseDate = (dateString) => {
                 let parts = dateString.split(".")

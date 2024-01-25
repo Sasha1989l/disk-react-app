@@ -52,6 +52,7 @@ const GenerateTitleForm = ({params, setParams}) => {
             <InputGroup className="my-2">
                 <Form.Control
                   placeholder='Цена'
+                  type="number"
                   value={params.price}
                   onChange={e => setParams({...params, price: e.target.value})}
                 />

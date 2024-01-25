@@ -6,6 +6,7 @@ export default class ImageTitle {
         'ТД': 'только доставка',
         'С': 'самовывоз'
     }
+    static maxFileNameLength = 250
 
     static splitString(fileName) {
         let regexp_file_extension = /\.[^.]+$/
@@ -54,6 +55,10 @@ export default class ImageTitle {
                 fileName += this.separator
             }
         })
+
+        if(fileName.length > this.maxFileNameLength){
+            return `Название фала слишком длинное. Длина: ${fileName.length}`
+        }
 
         return fileName
     }
