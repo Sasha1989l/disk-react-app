@@ -8,20 +8,27 @@ import {Container, Nav, Navbar} from "react-bootstrap";
 import {SettingsContext} from "./context";
 
 
-
 function App() {
     const [outdatedMonth, setOutdatedMonth] = useState(3)
+    const [publicUrl, setPublicUrl] = useState('')
 
     useEffect(() => {
         if (localStorage.getItem('outdatedMonth')) {
             let months = Number(localStorage.getItem('outdatedMonth'))
             setOutdatedMonth(months)
         }
+
+        if (localStorage.getItem('publicUrl')) {
+            console.log(12)
+            let url = localStorage.getItem('publicUrl')
+            setPublicUrl(url)
+        }
     }, [])
 
     return (
         <SettingsContext.Provider value={{
-            outdatedMonth, setOutdatedMonth
+            outdatedMonth, setOutdatedMonth,
+            publicUrl, setPublicUrl
         }}>
             <BrowserRouter>
                 <Navbar bg="dark" data-bs-theme="dark">

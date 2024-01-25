@@ -2,7 +2,7 @@ export default class ImageTitle {
     static partsName = ['date', 'delivery', 'price', 'address', 'title', 'avitoId']
     static separator = '@'
     static deliveryMethods = {
-        'Д': 'доставка+ установка',
+        'Д': 'доставка + установка',
         'ТД': 'только доставка',
         'С': 'самовывоз',
         'Р': 'ремонт'

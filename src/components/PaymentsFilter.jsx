@@ -12,18 +12,18 @@ const PaymentsFilter = ({filter, setFilter}) => {
 
     return (
         <div>
-            <InputGroup>
-                <Form.Control
-                  placeholder='Название'
-                  value={filter.queryTitle}
-                  onChange={e => setFilter({...filter, queryTitle: e.target.value})}
-                />
-            </InputGroup>
             <InputGroup className="my-1">
                 <Form.Control
                   placeholder='Адрес'
                   value={filter.queryAddress}
                   onChange={e => setFilter({...filter, queryAddress: e.target.value})}
+                />
+            </InputGroup>
+            <InputGroup>
+                <Form.Control
+                  placeholder='Название'
+                  value={filter.queryTitle}
+                  onChange={e => setFilter({...filter, queryTitle: e.target.value})}
                 />
             </InputGroup>
             <div className='d-flex flex-row my-1'>
@@ -37,7 +37,7 @@ const PaymentsFilter = ({filter, setFilter}) => {
                 </InputGroup>
                 <InputGroup>
                     <Form.Control
-                      placeholder='Цена да'
+                      placeholder='Цена до'
                       type="number"
                       value={filter.maxPrice}
                       onChange={e => setFilter({...filter, maxPrice: e.target.value})}

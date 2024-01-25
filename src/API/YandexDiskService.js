@@ -1,13 +1,19 @@
 import axios from "axios";
 import DateHelper from "../helpers/DateHelper";
 import ImageTitle from "../helpers/ImageTitle";
+import {useContext} from "react";
+import {SettingsContext} from "../context";
+
 
 export default class YandexDiskService {
-    // static public_key = 'ZxDvyPQq38rY8w'
-    static public_key = '9843PIB-84-vvg'
-    static public_url = `https://disk.yandex.ru/d/${this.public_key}`
 
-    static getUrl(data, item){
+    constructor(publicUrl) {
+        this.public_url = publicUrl
+        let url_parts = publicUrl.split('/')
+        this.public_key = url_parts[url_parts.length-1]
+    }
+
+    getUrl(data, item){
         let url = ''
 
         if (item?.media_type === "image"){
@@ -24,7 +30,7 @@ export default class YandexDiskService {
         return url
     }
 
-    static parseResponse(response){
+    parseResponse(response){
         if (response.status !== 200){
             throw new Error('Статус код не 200');
         }
@@ -52,7 +58,7 @@ export default class YandexDiskService {
         return {total: total, payments: payments}
     }
 
-    static async getAll(limit=100, offset=0) {
+    async getAll(limit=100, offset=0) {
         let payments = []
         let total = -1
         let page = 0

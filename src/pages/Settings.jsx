@@ -1,13 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import {SettingsContext} from "../context";
+import {InputGroup} from "react-bootstrap";
 
 const Settings = () => {
-    const {outdatedMonth, setOutdatedMonth} = useContext(SettingsContext);
+    const {outdatedMonth, setOutdatedMonth, publicUrl, setPublicUrl} = useContext(SettingsContext);
 
     const changeOutdatedMonthSettings = (month) => {
         setOutdatedMonth(month)
         localStorage.setItem('outdatedMonth', month)
+    }
+
+    const changePublicUrlSettings = (url) => {
+        setPublicUrl(url)
+        localStorage.setItem('publicUrl', url)
     }
 
     return (
@@ -32,6 +38,13 @@ const Settings = () => {
                 <option value={12}>12 месяцев</option>
               </Form.Select>
             </Form.Group>
+            <InputGroup>
+                <Form.Control
+                  placeholder='Ссылка на yandex диск'
+                  value={publicUrl}
+                  onChange={e => changePublicUrlSettings(e.target.value)}
+                />
+            </InputGroup>
         </div>
     );
 };

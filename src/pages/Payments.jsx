@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import PaymentsFilter from "../components/PaymentsFilter";
 import PaymentsList from "../components/PaymentsList";
 import {usePayments} from "../hooks/usePayments";
 import {Spinner} from "react-bootstrap";
 import YandexDiskService from "../API/YandexDiskService";
 import {useFetching} from "../hooks/useFetching";
+import {SettingsContext} from "../context";
 
 function Payments() {
     const dateNow = new Date()
@@ -13,14 +14,19 @@ function Payments() {
     const [filter, setFilter] = useState({ queryTitle: '', queryAddress: '', startDate: dateNow, endDate: dateNow, minPrice: '', maxPrice: ''})
     const sortedAndSearchPayments = usePayments(payments, filter.queryTitle, filter.queryAddress, filter.startDate, filter.endDate, filter.minPrice, filter.maxPrice);
 
-    const [fetchPayments, isPaymentsLoading, paymentsError] = useFetching(async () => {
-        const response = await YandexDiskService.getAll();
+    const {publicUrl} = useContext(SettingsContext);
+
+    const [fetchPayments, isPaymentsLoading, paymentsError] = useFetching(async (url) => {
+        let yandexDiskService = new YandexDiskService(url)
+        const response = await yandexDiskService.getAll();
         setPayments([...payments, ...response])
     })
 
     useEffect(() => {
-        fetchPayments()
-    }, [])
+        if (publicUrl){
+            fetchPayments(publicUrl)
+        }
+    }, [publicUrl])
 
     return (
         <div className="App mx-auto p-2" style={{'maxWidth': '700px'}}>
