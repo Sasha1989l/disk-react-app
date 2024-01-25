@@ -1,24 +1,11 @@
 import axios from "axios";
 import DateHelper from "../helpers/DateHelper";
+import ImageTitle from "../helpers/ImageTitle";
 
 export default class YandexDiskService {
 
     static public_key = 'ZxDvyPQq38rY8w'
     static public_url = `https://disk.yandex.ru/d/${this.public_key}`
-
-    static splitString(fileName) {
-        fileName = fileName.replace(/\.[^.]+$/, "")
-        let parts = fileName.split("@")
-        if (parts.length < 3){
-            throw new Error('Название одного из файлов не может быть обработано');
-        }
-        let updated_parts = parts.map(part => {
-            return part.replace(/^\s\s*/, '').replace(/\s\s*$/, '')
-        })
-
-        return {date: updated_parts[0], address: updated_parts[1], title: updated_parts[2]}
-    }
-
 
     static getUrl(data, item){
         let url = ''
@@ -48,15 +35,18 @@ export default class YandexDiskService {
         let items= data?.items
 
         items.map((item) => {
-            let fileData = this.splitString(item.name)
+            let fileData = ImageTitle.getData(item.name)
+
             payments.push({
                 id: item?.resource_id,
                 title: fileData['title'],
                 date: DateHelper.parseDate(fileData['date']),
                 address: fileData['address'],
-                url: this.getUrl(data, item)})
-            }
-        )
+                url: this.getUrl(data, item),
+                delivery: fileData['delivery'],
+                price: fileData['price']
+            })
+        })
 
         return {total: total, payments: payments}
     }
@@ -83,6 +73,7 @@ export default class YandexDiskService {
             total = parseResult['total']
             payments = [...payments, ...parseResult['payments']]
         }while(total>page*limit)
+
         return payments
     }
 }

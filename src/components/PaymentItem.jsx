@@ -13,7 +13,8 @@ const PaymentItem = ({payment}) => {
                 <Card.Title>{payment.title}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{payment.address}</Card.Subtitle>
                 <Card.Text>
-                    Информация: Нет
+                    <div>Доставка: {payment.delivery}</div>
+                    <div>Цена: {payment.price}</div>
                 </Card.Text>
             </Card.Body>
             <Card.Footer className="d-flex flex-row justify-content-between">

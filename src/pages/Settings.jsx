@@ -14,8 +14,8 @@ const Settings = () => {
         <div className="App mx-auto p-2" style={{'maxWidth': '700px'}}>
             <h3 className="text-center mt-1">Настройки</h3>
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="disabledSelect">Срок действия</Form.Label>
-              <Form.Select id="disabledSelect"
+              <Form.Label htmlFor="outdatedMonthSelect">Срок действия</Form.Label>
+              <Form.Select id="outdatedMonthSelect"
                            value={outdatedMonth}
                            onChange={(e) => changeOutdatedMonthSettings(e.target.value)}>
                 <option value={1}>1 месяц</option>

@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
 import Payments from "./pages/Payments";
 import Settings from "./pages/Settings";
-import ImageTitle from "./pages/ImageTitle";
+import Title from "./pages/Title";
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {SettingsContext} from "./context";
 
@@ -36,7 +36,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Payments />} />
                     <Route path="/settings" element={<Settings />} />
-                    <Route path="/get_image_title" element={<ImageTitle />} />
+                    <Route path="/get_image_title" element={<Title />} />
                     <Route path="*" element={<Payments />} />
                 </Routes>
             </BrowserRouter>
