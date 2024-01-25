@@ -56,6 +56,7 @@ export default class ImageTitle {
                 fileName += this.separator
             }
         })
+        fileName += ".pdf"
 
         if(fileName.length > this.maxFileNameLength){
             return `Название фала слишком длинное. Длина: ${fileName.length}`
