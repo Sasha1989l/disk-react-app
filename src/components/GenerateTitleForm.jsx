@@ -17,8 +17,6 @@ const GenerateTitleForm = ({params, setParams}) => {
         for(let method_code in dm){
             deliveryMethods.push({code: method_code, title: dm[method_code]})
         }
-
-        console.log(deliveryMethods)
     }, []);
 
 

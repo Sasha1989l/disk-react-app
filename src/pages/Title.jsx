@@ -2,14 +2,15 @@ import React, {useEffect, useState} from 'react';
 import {Button, Toast, ToastContainer} from "react-bootstrap";
 import ImageTitle from "../helpers/ImageTitle";
 import GenerateTitleForm from "../components/GenerateTitleForm";
+import {options} from "axios";
 
 const Title = () => {
     const [params, setParams] = useState({
         date: new Date(),
         delivery: 'Д',
-        price: 10,
-        title: 'Название',
-        address: 'Адрес'
+        price: '',
+        title: '',
+        address: ''
     })
     const [fileName, setFileName] = useState('')
     const [showToast, setShowToast] = useState(false);
@@ -20,6 +21,10 @@ const Title = () => {
 
     const generateTitle = () => {
         let date = params.date.toLocaleString().split(',')[0]
+        let [day, month, year] = date.split('.')
+        year = year.substring(year.length-2);
+        date = `${day}.${month}.${year}`
+
         return ImageTitle.generate(date, params.delivery, params.price, params.title, params.address)
     }
 
