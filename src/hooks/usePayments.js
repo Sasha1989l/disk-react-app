@@ -28,11 +28,9 @@ export const usePayments = (payments, queryTitle, queryAddress, startDate, endDa
                 let result = true
                 let price = parseInt(payments.price)
                 if(price){
-                    result = minPrice ? minPrice <= price : true;
-                    if (!result){
+                    if ((minPrice && price < minPrice) || (maxPrice && maxPrice < price)){
                         return false
                     }
-                    result = maxPrice ? maxPrice >= price : true
                 }
                 return result
             }

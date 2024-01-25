@@ -3,7 +3,7 @@ import DateHelper from "../helpers/DateHelper";
 import ImageTitle from "../helpers/ImageTitle";
 
 export default class YandexDiskService {
-
+//     static public_key = 'ZxDvyPQq38rY8w'
     static public_key = '9843PIB-84-vvg'
     static public_url = `https://disk.yandex.ru/d/${this.public_key}`
 
