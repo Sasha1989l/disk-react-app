@@ -1,5 +1,5 @@
 import React, {forwardRef, useEffect, useState} from 'react';
-import {Button, FloatingLabel, Form, InputGroup} from "react-bootstrap";
+import {Button, FloatingLabel, Form, InputGroup, Toast} from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import ru from 'date-fns/locale/ru';
 import ImageTitle from "../helpers/ImageTitle";
@@ -11,6 +11,8 @@ const GenerateTitleForm = ({params, setParams}) => {
           {value}
         </Button>
     ))
+    let [phone16, setPhone16] = useState('')
+    const [showToast, setShowToast] = useState(false);
 
     useEffect(() => {
         let dm = ImageTitle.deliveryMethods
@@ -18,6 +20,16 @@ const GenerateTitleForm = ({params, setParams}) => {
             deliveryMethods.push({code: method_code, title: dm[method_code]})
         }
     }, []);
+
+    useEffect(() => {
+        let phone_num = parseInt(params.phone)
+        setPhone16(phone_num.toString(16))
+    }, [params.phone]);
+
+    const copyPhone = () => {
+        navigator.clipboard.writeText(phone16)
+        setShowToast(true)
+    }
 
     return (
         <div>
@@ -77,14 +89,19 @@ const GenerateTitleForm = ({params, setParams}) => {
                               onChange={e => setParams({...params, avitoId: e.target.value})}
                 />
             </FloatingLabel>
-            <InputGroup className="my-2">
+            <div className="my-2">
                 <Form.Control
                   placeholder='Телефон'
                   type="number"
                   value={params.phone}
+                  aria-describedby="phone16"
                   onChange={e => setParams({...params, phone: e.target.value})}
                 />
-            </InputGroup>
+                <div className="form-text" id="phone16"><a href="#" onClick={()=> copyPhone()}>{phone16}</a></div>
+            </div>
+            <Toast onClose={() => setShowToast(false)} show={showToast} delay={500} autohide>
+              <Toast.Body>Скопирован!</Toast.Body>
+            </Toast>
             <FloatingLabel
             label="Примечания"
             className="mb-3"
@@ -95,7 +112,6 @@ const GenerateTitleForm = ({params, setParams}) => {
                               onChange={e => setParams({...params, notes: e.target.value})}
                 />
             </FloatingLabel>
-
         </div>
     );
 };
