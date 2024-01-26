@@ -1,10 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Toast, ToastContainer} from "react-bootstrap";
 import ImageTitle from "../helpers/ImageTitle";
 import GenerateTitleForm from "../components/GenerateTitleForm";
 import {options} from "axios";
+import {SettingsContext} from "../context";
 
 const Title = () => {
+    const {setShowToast} = useContext(SettingsContext);
+
     const [params, setParams] = useState({
         date: new Date(),
         delivery: 'Д',
@@ -16,7 +19,6 @@ const Title = () => {
         notes: ''
     })
     const [fileName, setFileName] = useState('')
-    const [showToast, setShowToast] = useState(false);
 
     useEffect(() => {
         setFileName(generateTitle())
@@ -61,8 +63,9 @@ const Title = () => {
         )
     }
 
-    const copyToClipboard = (text) => {
-        navigator.clipboard.writeText(text)
+    const copyToClipboard = (e) => {
+        e.preventDefault()
+        navigator.clipboard.writeText(fileName)
         setShowToast(true)
     }
 
@@ -72,13 +75,10 @@ const Title = () => {
             <div className="text-center mt-3">
                 <a href='#'
                    className="text-break"
-                   onClick={() => copyToClipboard(fileName)}>
+                   onClick={(e) => copyToClipboard(e)}>
                     {fileName}
                 </a>
             </div>
-            <Toast onClose={() => setShowToast(false)} show={showToast} delay={1000} autohide>
-              <Toast.Body>Скопировано!</Toast.Body>
-            </Toast>
         </div>
     );
 };

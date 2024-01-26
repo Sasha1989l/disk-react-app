@@ -4,7 +4,7 @@ import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
 import Payments from "./pages/Payments";
 import Settings from "./pages/Settings";
 import Title from "./pages/Title";
-import {Container, Nav, Navbar} from "react-bootstrap";
+import {Container, Fade, Nav, Navbar, Toast, ToastContainer} from "react-bootstrap";
 import {SettingsContext} from "./context";
 
 
@@ -12,6 +12,7 @@ function App() {
     const [outdatedMonth, setOutdatedMonth] = useState(3)
     const [publicUrl, setPublicUrl] = useState('')
     const [paymentsCount, setPaymentsCount] = useState(0)
+    const [showToast, setShowToast] = useState(false);
 
     useEffect(() => {
         if (localStorage.getItem('outdatedMonth')) {
@@ -29,7 +30,8 @@ function App() {
         <SettingsContext.Provider value={{
             outdatedMonth, setOutdatedMonth,
             publicUrl, setPublicUrl,
-            paymentsCount, setPaymentsCount
+            paymentsCount, setPaymentsCount,
+            showToast, setShowToast,
         }}>
             <BrowserRouter>
                 <Navbar bg="dark" data-bs-theme="dark">
@@ -50,6 +52,11 @@ function App() {
                     <Route path="*" element={<Payments />} />
                 </Routes>
             </BrowserRouter>
+            <ToastContainer className="position-fixed bottom-0 start-50 translate-middle-x mb-2">
+                <Toast onClose={() => setShowToast(false)} show={showToast} delay={1000} autohide bg="dark">
+                  <Toast.Body className="text-white">Скопировано!</Toast.Body>
+                </Toast>
+            </ToastContainer>
         </SettingsContext.Provider>
     );
 }

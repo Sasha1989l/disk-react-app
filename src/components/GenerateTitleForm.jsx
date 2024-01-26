@@ -1,10 +1,13 @@
-import React, {forwardRef, useEffect, useState} from 'react';
+import React, {forwardRef, useContext, useEffect, useState} from 'react';
 import {Button, FloatingLabel, Form, InputGroup, Toast} from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import ru from 'date-fns/locale/ru';
 import ImageTitle from "../helpers/ImageTitle";
+import {SettingsContext} from "../context";
 
 const GenerateTitleForm = ({params, setParams}) => {
+    const {setShowToast} = useContext(SettingsContext);
+
     let [deliveryMethods, setDeliveryMethods] = useState([])
     const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
         <Button className="primary" onClick={onClick} ref={ref}>
@@ -12,7 +15,7 @@ const GenerateTitleForm = ({params, setParams}) => {
         </Button>
     ))
     let [phone16, setPhone16] = useState('')
-    const [showToast, setShowToast] = useState(false);
+
 
     useEffect(() => {
         let dm = ImageTitle.deliveryMethods
@@ -26,7 +29,8 @@ const GenerateTitleForm = ({params, setParams}) => {
         setPhone16(phone_num.toString(16))
     }, [params.phone]);
 
-    const copyPhone = () => {
+    const copyPhone = (e) => {
+        e.preventDefault()
         navigator.clipboard.writeText(phone16)
         setShowToast(true)
     }
@@ -97,11 +101,8 @@ const GenerateTitleForm = ({params, setParams}) => {
                   aria-describedby="phone16"
                   onChange={e => setParams({...params, phone: e.target.value})}
                 />
-                <div className="form-text" id="phone16"><a href="#" onClick={()=> copyPhone()}>{phone16}</a></div>
+                <div className="form-text" id="phone16"><a href="#" onClick={(e)=> copyPhone(e)}>{phone16}</a></div>
             </div>
-            <Toast onClose={() => setShowToast(false)} show={showToast} delay={500} autohide>
-              <Toast.Body>Скопирован!</Toast.Body>
-            </Toast>
             <FloatingLabel
             label="Примечания"
             className="mb-3"
