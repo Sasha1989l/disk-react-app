@@ -43,6 +43,8 @@ export default class YandexDiskService {
         items.map((item) => {
             let fileData = ImageTitle.getData(item.name)
 
+            let phone = parseInt(fileData['phone'], 16) ? parseInt(fileData['phone'], 16) : ''
+
             payments.push({
                 id: item?.resource_id,
                 title: fileData['title'],
@@ -52,6 +54,8 @@ export default class YandexDiskService {
                 delivery: fileData['delivery'],
                 price: fileData['price'],
                 avitoUrl: fileData['avitoId'] ? `https://www.avito.ru/${fileData['avitoId']}` : '',
+                phone: phone.toString(),
+                notes: fileData['notes'],
             })
         })
 

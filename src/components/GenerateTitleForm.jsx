@@ -68,17 +68,34 @@ const GenerateTitleForm = ({params, setParams}) => {
                 />
             </InputGroup>
             <FloatingLabel
-            controlId="floatingTextarea"
             label="Ссылка на авито или id"
-            className="mb-3"
+            className="mb-2"
             >
                 <Form.Control as="textarea"
-                              placeholder="https://www.avito.ru/severodvinsk/avtomobili/hyundai_accent_1.5_mt_2005_202202km_3694137050"
-                              value={params.avitoId}
                               style={{ height: '120px' }}
+                              value={params.avitoId}
                               onChange={e => setParams({...params, avitoId: e.target.value})}
                 />
             </FloatingLabel>
+            <InputGroup className="my-2">
+                <Form.Control
+                  placeholder='Телефон'
+                  type="number"
+                  value={params.phone}
+                  onChange={e => setParams({...params, phone: e.target.value})}
+                />
+            </InputGroup>
+            <FloatingLabel
+            label="Примечания"
+            className="mb-3"
+            >
+                <Form.Control as="textarea"
+                              style={{ height: '100px' }}
+                              value={params.notes}
+                              onChange={e => setParams({...params, notes: e.target.value})}
+                />
+            </FloatingLabel>
+
         </div>
     );
 };

@@ -11,10 +11,10 @@ function Payments() {
     const dateNow = new Date()
     dateNow.setHours(0,0,0,0);
     const [payments, setPayments] = useState([])
-    const [filter, setFilter] = useState({ queryTitle: '', queryAddress: '', startDate: dateNow, endDate: dateNow, minPrice: '', maxPrice: ''})
-    const sortedAndSearchPayments = usePayments(payments, filter.queryTitle, filter.queryAddress, filter.startDate, filter.endDate, filter.minPrice, filter.maxPrice);
+    const [filter, setFilter] = useState({ queryTitle: '', queryAddress: '', startDate: dateNow, endDate: dateNow, minPrice: '', maxPrice: '', phone: ''})
+    const sortedAndSearchPayments = usePayments(payments, filter.queryTitle, filter.queryAddress, filter.startDate, filter.endDate, filter.minPrice, filter.maxPrice, filter.phone);
 
-    const {publicUrl} = useContext(SettingsContext);
+    const {publicUrl, setPaymentsCount} = useContext(SettingsContext);
 
     const [fetchPayments, isPaymentsLoading, paymentsError] = useFetching(async (url) => {
         let yandexDiskService = new YandexDiskService(url)
@@ -27,6 +27,10 @@ function Payments() {
             fetchPayments(publicUrl)
         }
     }, [publicUrl])
+
+    useEffect(() => {
+        setPaymentsCount(payments.length)
+    }, [payments])
 
     return (
         <div className="App mx-auto p-2" style={{'maxWidth': '700px'}}>

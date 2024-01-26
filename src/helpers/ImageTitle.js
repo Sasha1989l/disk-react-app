@@ -1,5 +1,5 @@
 export default class ImageTitle {
-    static partsName = ['date', 'delivery', 'price', 'address', 'title', 'avitoId']
+    static partsName = ['date', 'delivery', 'price', 'address', 'title', 'avitoId', 'phone', 'notes']
     static separator = '@'
     static deliveryMethods = {
         'Д': 'доставка + установка',
@@ -59,7 +59,7 @@ export default class ImageTitle {
         fileName += ".pdf"
 
         if(fileName.length > this.maxFileNameLength){
-            return `Название фала слишком длинное. Длина: ${fileName.length}`
+            return `Название файла слишком длинное. Длина: ${fileName.length}`
         }
 
         return fileName

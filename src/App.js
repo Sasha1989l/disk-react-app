@@ -11,6 +11,7 @@ import {SettingsContext} from "./context";
 function App() {
     const [outdatedMonth, setOutdatedMonth] = useState(3)
     const [publicUrl, setPublicUrl] = useState('')
+    const [paymentsCount, setPaymentsCount] = useState(0)
 
     useEffect(() => {
         if (localStorage.getItem('outdatedMonth')) {
@@ -19,7 +20,6 @@ function App() {
         }
 
         if (localStorage.getItem('publicUrl')) {
-            console.log(12)
             let url = localStorage.getItem('publicUrl')
             setPublicUrl(url)
         }
@@ -28,13 +28,16 @@ function App() {
     return (
         <SettingsContext.Provider value={{
             outdatedMonth, setOutdatedMonth,
-            publicUrl, setPublicUrl
+            publicUrl, setPublicUrl,
+            paymentsCount, setPaymentsCount
         }}>
             <BrowserRouter>
                 <Navbar bg="dark" data-bs-theme="dark">
                     <Container>
                       <Nav className="me-auto">
-                        <Nav.Link as={Link} to="/" activeClassName="active">Список</Nav.Link>
+                        <Nav.Link as={Link} to="/" activeClassName="active">
+                            Список <span className="badge bg-secondary">{paymentsCount}</span>
+                        </Nav.Link>
                         <Nav.Link as={Link} to="/settings" activeClassName="active">Настройки</Nav.Link>
                         <Nav.Link as={Link} to="/get_image_title" activeClassName="active">Название</Nav.Link>
                       </Nav>

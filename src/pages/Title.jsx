@@ -12,6 +12,8 @@ const Title = () => {
         title: '',
         address: '',
         avitoId: '',
+        phone: '',
+        notes: ''
     })
     const [fileName, setFileName] = useState('')
     const [showToast, setShowToast] = useState(false);
@@ -44,7 +46,19 @@ const Title = () => {
             avitoId = pathname_parts[pathname_parts.length-1]
         }
 
-        return ImageTitle.generate(date, params.delivery, params.price, params.address, params.title, avitoId)
+        let phone_num = parseInt(params.phone)
+        let phone = phone_num ? phone_num.toString(16) : ''
+
+        return ImageTitle.generate(
+            date,
+            params.delivery,
+            params.price,
+            params.address,
+            params.title,
+            avitoId,
+            phone,
+            params.notes
+        )
     }
 
     const copyToClipboard = (text) => {

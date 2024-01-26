@@ -6,7 +6,7 @@ export const useSortedPayments = (payments) => {
     }, [payments]);
 }
 
-export const usePayments = (payments, queryTitle, queryAddress, startDate, endDate, minPrice, maxPrice) => {
+export const usePayments = (payments, queryTitle, queryAddress, startDate, endDate, minPrice, maxPrice, phone) => {
     const sortedPayments = useSortedPayments(payments)
 
     return useMemo(() => {
@@ -36,6 +36,10 @@ export const usePayments = (payments, queryTitle, queryAddress, startDate, endDa
             }
         )
 
+        searched = searched.filter(
+            payment => payment.phone.toLowerCase().includes(phone.toLowerCase())
+        )
+
         return searched
-    }, [queryTitle, queryAddress, startDate, endDate, sortedPayments, minPrice, maxPrice])
+    }, [queryTitle, queryAddress, startDate, endDate, sortedPayments, minPrice, maxPrice, phone])
 }
