@@ -40,7 +40,7 @@ function Payments() {
                 : <PaymentsList payments={sortedAndSearchPayments}/>
             }
             {paymentsError &&
-                <h1>Произошла ошибка ${paymentsError}</h1>
+                <p><b>Произошла ошибка</b> <br/>{paymentsError}</p>
             }
         </div>
     );

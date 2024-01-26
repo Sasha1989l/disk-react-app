@@ -15,7 +15,9 @@ export default class ImageTitle {
 
         let parts = fileName.split(this.separator)
         if (parts.length < this.partsName.length){
-            throw new Error(`Название одного из файлов не может быть обработано. Название файла: ${fileName}`);
+            throw new Error(`Название одного из файлов не может быть обработано. Название файла: ${fileName}. 
+                            Требуется указать: ${this.partsName.length} парметров. Указано: ${parts.length}.                            
+            `);
         }
 
         let updated_parts = parts.map(part => {
