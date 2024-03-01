@@ -1,8 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, Toast, ToastContainer} from "react-bootstrap";
 import ImageTitle from "../helpers/ImageTitle";
 import GenerateTitleForm from "../components/GenerateTitleForm";
-import {options} from "axios";
 import {SettingsContext} from "../context";
 
 const Title = () => {
@@ -21,7 +19,15 @@ const Title = () => {
     const [fileName, setFileName] = useState('')
 
     useEffect(() => {
+        if (localStorage.getItem('params')) {
+            let localStorageParams = JSON.parse(localStorage.getItem('params'))
+            setParams({...localStorageParams, date: new Date(localStorageParams.date)})
+        }
+    }, [])
+
+    useEffect(() => {
         setFileName(generateTitle())
+        localStorage.setItem('params', JSON.stringify(params))
     }, [params]);
 
     const getUrl = (text) => {
@@ -67,6 +73,9 @@ const Title = () => {
         e.preventDefault()
         navigator.clipboard.writeText(fileName)
         setShowToast(true)
+        if (localStorage.getItem('params')) {
+            localStorage.removeItem('params')
+        }
     }
 
     return (

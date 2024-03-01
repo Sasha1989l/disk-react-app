@@ -1,5 +1,5 @@
 import React, {forwardRef, useContext, useEffect, useState} from 'react';
-import {Button, FloatingLabel, Form, InputGroup, Toast} from "react-bootstrap";
+import {Button, FloatingLabel, Form, InputGroup} from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import ru from 'date-fns/locale/ru';
 import ImageTitle from "../helpers/ImageTitle";
@@ -57,7 +57,7 @@ const GenerateTitleForm = ({params, setParams}) => {
             <Form.Group className="my-2">
                 <Form.Select value={params.delivery} onChange={(e) => setParams({...params, delivery: e.target.value})}>
                     {deliveryMethods.map((method) => (
-                        <option value={method.code}>{method.title}</option>
+                        <option key={method.code} value={method.code}>{method.title}</option>
                     ))}
                 </Form.Select>
             </Form.Group>
